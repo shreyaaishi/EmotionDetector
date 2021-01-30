@@ -1,46 +1,23 @@
 package com.example.emotiondetector;
 
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
-import androidx.camera.core.CameraX;
+import androidx.camera.core.ImageCapture;
 import androidx.camera.core.Preview;
-import androidx.camera.core.impl.PreviewConfig;
-import androidx.camera.core.impl.UseCaseConfig;
-import androidx.camera.core.impl.UseCaseConfig.Builder;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.util.Rational;
-import android.util.Size;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-
-import androidx.annotation.Nullable;
-import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.impl.ImageAnalysisConfig;
-import androidx.camera.core.ImageCapture;
-import androidx.camera.core.impl.ImageCaptureConfig;
-import androidx.camera.core.ImageProxy;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
-import android.graphics.Matrix;
-import android.os.Environment;
-import android.view.Surface;
-import android.view.TextureView;
-import android.view.View;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
-import java.io.File;
 import java.util.concurrent.ExecutionException;
 
 public class LaunchActivity extends AppCompatActivity {
@@ -48,12 +25,13 @@ public class LaunchActivity extends AppCompatActivity {
     private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA"};
     PreviewView cameraFeed;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
-
+    ImageCapture imageCapture = new ImageCapture.Builder()
+            .setTargetRotation(cameraFeed.getDisplay().getRotation())
+            .build();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-        cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraFeed = findViewById(R.id.cameraFeed);
 
         if(allPermissionsGranted()){
@@ -87,8 +65,7 @@ public class LaunchActivity extends AppCompatActivity {
 
         preview.setSurfaceProvider(cameraFeed.getSurfaceProvider());
 
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, preview);
-
+        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, imageCapture, preview);
     }
 
     @Override
@@ -113,5 +90,18 @@ public class LaunchActivity extends AppCompatActivity {
         return true;
     }
 
+    /*public void onClick() {
+      //  imageCapture.takePicture(outputFileOptions, cameraExecutor,
+             //   new ImageCapture.OnImageSavedListener() {
+                    @Override
+                    public void onImageSaved(ImageCapture.OutputFileResults outputFileResults) {
+                        // insert your code here.
+                    }
+                    @Override
+                    public void onError(ImageCaptureException error) {
+                        // insert your code here.
+                    }
+                }
 
+    }*/
 }
