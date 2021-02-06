@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+
+
     <LinearLayout
         android:layout_width="424dp"
         android:layout_height="176dp"
@@ -22,7 +25,10 @@
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Retake"
             android:onClick="returnLaunch"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:backgroundTint="@android:color/darker_gray"
             android:src="@drawable/ic_baseline_keyboard_backspace_24"
             app:layout_constraintEnd_toStartOf="@+id/button2"
             app:layout_constraintHorizontal_bias="0.5"
@@ -33,7 +39,10 @@
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#FFFFFF"
             android:text="Analyze"
+            android:backgroundTint="@android:color/darker_gray"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/backButton"

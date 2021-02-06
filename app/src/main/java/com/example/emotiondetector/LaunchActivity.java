@@ -1,7 +1,9 @@
 package com.example.emotiondetector;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -67,7 +69,11 @@ public class LaunchActivity extends AppCompatActivity {
 
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, imageCapture, preview);
     }
-
+    public void capturePhoto(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        // Do something in response to button
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         //start camera when permissions have been granted otherwise exit app
