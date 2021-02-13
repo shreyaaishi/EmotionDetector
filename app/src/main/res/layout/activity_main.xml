@@ -7,29 +7,28 @@
     tools:context=".MainActivity">
 
 
-
-
     <LinearLayout
-        android:layout_width="424dp"
-        android:layout_height="176dp"
-        android:layout_marginTop="560dp"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
+        android:layout_width="412dp"
+        android:layout_height="84dp"
         android:layout_gravity="bottom"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.157"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <Button
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Retake"
-            android:onClick="returnLaunch"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:backgroundTint="@android:color/darker_gray"
+            android:onClick="returnLaunch"
             android:src="@drawable/ic_baseline_keyboard_backspace_24"
+            android:text="Retake"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintEnd_toStartOf="@+id/button2"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,8 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
-            android:text="Analyze"
             android:backgroundTint="@android:color/darker_gray"
+            android:text="Analyze"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
