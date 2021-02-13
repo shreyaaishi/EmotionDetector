@@ -3,6 +3,8 @@ package com.example.emotiondetector;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,8 +32,12 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.nio.ByteBuffer;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class LaunchActivity extends AppCompatActivity {
     private int REQUEST_CODE_PERMISSIONS = 1001;
@@ -39,7 +45,8 @@ public class LaunchActivity extends AppCompatActivity {
     PreviewView cameraFeed;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private ImageCapture imageCapture;
-    private Uri imgUri;
+    Executor cameraExecutor = Executors.newSingleThreadExecutor();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,23 +92,24 @@ public class LaunchActivity extends AppCompatActivity {
 
         findViewById(R.id.capture_button).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Context filePath = Context.getCacheDir() + "/" + System.currentTimeMillis() + ".jpg";
-                File file = new File(filePath);
-                Intent cameraIntent;
-                imageCapture.takePicture(file, new ImageCapture.OnImageCapturedCallback() {
+            public void onClick(View view) {
+                imageCapture.takePicture(Executor this, new ImageCapture.OnImageCapturedCallback() {
                     @Override
                     public void onCaptureSuccess(ImageProxy image) {
-                        Intent cameraIntent = new Intent(this, MainActivity.class);
-                        cameraIntent.putExtra(filePath);
-                        startActivity(cameraIntent);
                         image.close();
                     }
-                });
-            }
-        });
 
+                    @Override
+                    public void onError(ImageCaptureException exception) {
+
+                    }
+                })
+
+            }
+
+        });
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageCapture, preview);
+
     }
 
     @Override
@@ -125,6 +133,15 @@ public class LaunchActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    private byte[] getByteArray(ImageProxy image) {
+        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+        buffer.rewind();
+        byte[] bytes = new byte[buffer.capacity()];
+
+        byte[] clonedBytes = bytes.clone();
+        return clonedBytes;
     }
 
 }
