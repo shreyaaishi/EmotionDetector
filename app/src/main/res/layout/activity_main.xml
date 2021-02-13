@@ -48,4 +48,11 @@
             tools:layout_editor_absoluteY="372dp" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/imageDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="1dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

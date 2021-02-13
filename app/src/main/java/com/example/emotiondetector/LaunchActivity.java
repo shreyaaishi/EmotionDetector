@@ -93,9 +93,18 @@ public class LaunchActivity extends AppCompatActivity {
         findViewById(R.id.capture_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageCapture.takePicture(Executor this, new ImageCapture.OnImageCapturedCallback() {
+                imageCapture.takePicture(new Executor() {
+                    @Override
+                    public void execute(Runnable runnable) {
+
+                    }
+                }, new ImageCapture.OnImageCapturedCallback() {
                     @Override
                     public void onCaptureSuccess(ImageProxy image) {
+                        byte [] byteArray = getByteArray(image);
+                        Intent intent = new Intent(view.getContext(), MainActivity.class);
+                        intent.putExtra("ByteArray", byteArray);
+                        startActivity(intent);
                         image.close();
                     }
 
@@ -103,7 +112,7 @@ public class LaunchActivity extends AppCompatActivity {
                     public void onError(ImageCaptureException exception) {
 
                     }
-                })
+                });
 
             }
 

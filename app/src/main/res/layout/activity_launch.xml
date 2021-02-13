@@ -40,7 +40,6 @@
             android:layout_height="match_parent"
             android:backgroundTint="@android:color/darker_gray"
             android:drawableEnd="@drawable/ic_baseline_photo_camera_24"
-            android:onClick="capturePhoto"
             android:text="Capture" />
     </LinearLayout>
 
