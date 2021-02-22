@@ -13,45 +13,34 @@
         android:id="@+id/cameraFeed"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:importantForAccessibility="no"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.camera.view.PreviewView>
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_gravity="bottom"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cameraFeed">
+        app:layout_constraintTop_toBottomOf="@+id/cameraFeed" >
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/capture"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/capture_button"
+            android:layout_width="198dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:cardBackgroundColor="@color/teal_700"
-            app:cardCornerRadius="18dp">
-
-            <ImageView
-                android:id="@+id/captureImg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_baseline_photo_camera_24" />
-
-        </androidx.cardview.widget.CardView>
-
+            android:backgroundTint="@android:color/darker_gray"
+            android:drawableEnd="@drawable/ic_baseline_photo_camera_24"
+            android:text="Capture" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
