@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
@@ -30,6 +32,28 @@ import androidx.camera.view.CameraView;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.util.Rational;
+import android.util.Size;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+
+import androidx.annotation.Nullable;
+import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.impl.ImageAnalysisConfig;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.impl.ImageCaptureConfig;
+import androidx.camera.core.ImageProxy;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+
 import androidx.lifecycle.LifecycleOwner;
 
 import com.google.common.util.concurrent.ListenableFuture;
@@ -43,6 +67,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+
+
 public class LaunchActivity extends AppCompatActivity {
     private int REQUEST_CODE_PERMISSIONS = 1001;
     private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA"};
@@ -52,9 +78,77 @@ public class LaunchActivity extends AppCompatActivity {
     Executor cameraExecutor = Executors.newSingleThreadExecutor();
 
 
+    private boolean openDialogueBox = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
+        if (openDialogueBox == false){
+        AlertDialog.Builder builder
+                = new AlertDialog
+                .Builder(LaunchActivity.this);
+
+// Set the message show for the Alert time
+        builder.setMessage("Do you want to begin?");
+
+// Set Alert Title
+        builder.setTitle("Welcome!");
+
+// Set Cancelable false
+// for when the user clicks on the outside
+// the Dialog Box then it will remain show
+        builder.setCancelable(false);
+
+// Set the positive button with yes name
+// OnClickListener method is use of
+// DialogInterface interface.
+
+        builder
+                .setPositiveButton(
+                        "No",
+                        new DialogInterface
+                                .OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which)
+                            {
+
+                                // When the user click yes button
+                                // then app will close
+                                finish();
+                            }
+                        });
+
+// Set the Negative button with No name
+// OnClickListener method is use
+// of DialogInterface interface.
+        builder
+                .setNegativeButton(
+                        "Yes",
+                        new DialogInterface
+                                .OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which)
+                            {
+                                openDialogueBox = true;
+
+                                // If user click no
+                                // then dialog box is canceled.
+                                dialog.cancel();
+                            }
+                        });
+
+// Create the Alert dialog
+        AlertDialog alertDialog = builder.create();
+
+// Show the Alert Dialog box
+        alertDialog.show();}
+
         setContentView(R.layout.activity_launch);
         cameraFeed = findViewById(R.id.cameraFeed);
 
