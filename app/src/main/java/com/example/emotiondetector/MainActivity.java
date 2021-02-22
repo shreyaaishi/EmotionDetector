@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -16,13 +18,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Get file path from Intent and use it to retrieve Bitmap and set it as the Image View
         Bundle extras = getIntent().getExtras();
-        byte[] byteArray = extras.getByteArray("ByteArray");
-
-        Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        String filePath = extras.getString("path");
+        File file = new File(filePath);
+        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
         ImageView image = (ImageView) findViewById(R.id.imageDisplay);
-
-        image.setImageBitmap(bmp);
+        image.setImageBitmap(bitmap);
     }
 
     public void returnLaunch(View view) {

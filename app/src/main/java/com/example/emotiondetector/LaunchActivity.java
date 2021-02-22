@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -34,6 +36,8 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -59,6 +63,8 @@ public class LaunchActivity extends AppCompatActivity {
         } else {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
         }
+
+        //trying s
     }
 
     private void startCamera() {
@@ -93,17 +99,16 @@ public class LaunchActivity extends AppCompatActivity {
         findViewById(R.id.capture_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageCapture.takePicture(new Executor() {
-                    @Override
-                    public void execute(Runnable runnable) {
-
-                    }
-                }, new ImageCapture.OnImageCapturedCallback() {
+                imageCapture.takePicture(cameraExecutor, new ImageCapture.OnImageCapturedCallback() {
                     @Override
                     public void onCaptureSuccess(ImageProxy image) {
-                        byte [] byteArray = getByteArray(image);
+                        // Create Bitmap
+                        Bitmap bm = getBitMap(image);
+                        // Store in temporary file path
+                        String filePath= tempFileImage(LaunchActivity.this.getApplicationContext(), bm, "name");
                         Intent intent = new Intent(view.getContext(), MainActivity.class);
-                        intent.putExtra("ByteArray", byteArray);
+                        // Add path as a string to Intent
+                        intent.putExtra("path", filePath);
                         startActivity(intent);
                         image.close();
                     }
@@ -144,13 +149,33 @@ public class LaunchActivity extends AppCompatActivity {
         return true;
     }
 
-    private byte[] getByteArray(ImageProxy image) {
-        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-        buffer.rewind();
-        byte[] bytes = new byte[buffer.capacity()];
+    // Converts from ImageProxy to BitMap
+    private Bitmap getBitMap(ImageProxy image) {
+        ImageProxy.PlaneProxy planeProxy = image.getPlanes()[0];
+        ByteBuffer buffer = planeProxy.getBuffer();
+        byte[] bytes = new byte[buffer.remaining()];
+        buffer.get(bytes);
 
-        byte[] clonedBytes = bytes.clone();
-        return clonedBytes;
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    // Creates a temporary file and return the absolute file path
+    private static String tempFileImage(Context context, Bitmap bitmap, String name) {
+
+        File outputDir = context.getCacheDir();
+        File imageFile = new File(outputDir, name + ".jpg");
+
+        OutputStream os;
+        try {
+            os = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            Log.e(context.getClass().getSimpleName(), "Error writing file", e);
+        }
+
+        return imageFile.getAbsolutePath();
     }
 
 }
