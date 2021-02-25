@@ -13,6 +13,7 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
+    Bitmap bmp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String filePath = extras.getString("path");
         File file = new File(filePath);
-        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        Bitmap bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
         ImageView image = (ImageView) findViewById(R.id.imageDisplay);
-        image.setImageBitmap(bitmap);
+        image.setImageBitmap(bmp);
     }
 
     public void returnLaunch(View view) {
