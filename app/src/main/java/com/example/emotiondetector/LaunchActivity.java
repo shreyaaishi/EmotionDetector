@@ -74,91 +74,70 @@ public class LaunchActivity extends AppCompatActivity {
     private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA"};
     PreviewView cameraFeed;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
-    private ImageCapture imageCapture;
     Executor cameraExecutor = Executors.newSingleThreadExecutor();
+    private boolean openedDialogueBox = false;
 
-
-    private boolean openDialogueBox = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
+        setContentView(R.layout.activity_launch);
+        cameraFeed = findViewById(R.id.cameraFeed);
 
         super.onCreate(savedInstanceState);
-        if (openDialogueBox == false){
+        if (!openedDialogueBox){
         AlertDialog.Builder builder
                 = new AlertDialog
                 .Builder(LaunchActivity.this);
 
-// Set the message show for the Alert time
+        // Set the message show for the Alert time
         builder.setMessage("Do you want to begin?");
 
-// Set Alert Title
+        // Set Alert Title
         builder.setTitle("Welcome!");
 
-// Set Cancelable false
-// for when the user clicks on the outside
-// the Dialog Box then it will remain show
+        // Set Cancelable false
+        // for when the user clicks on the outside
+        // the Dialog Box then it will remain show
         builder.setCancelable(false);
 
-// Set the positive button with yes name
-// OnClickListener method is use of
-// DialogInterface interface.
+        // Set the positive button with yes name
+        // OnClickListener method is use of
+        // DialogInterface interface.
 
-        builder
-                .setPositiveButton(
-                        "No",
-                        new DialogInterface
-                                .OnClickListener() {
+        builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // When the user click yes button
+                // then app will close
+                finish();
+            }
+        });
 
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                                int which)
-                            {
+        // Set the Negative button with No name
+        // OnClickListener method is use
+        // of DialogInterface interface.
+        builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openedDialogueBox = true;
 
-                                // When the user click yes button
-                                // then app will close
-                                finish();
-                            }
-                        });
+                // If user click no
+                // then dialog box is canceled.
+                dialog.cancel();
+            }
+        });
 
-// Set the Negative button with No name
-// OnClickListener method is use
-// of DialogInterface interface.
-        builder
-                .setNegativeButton(
-                        "Yes",
-                        new DialogInterface
-                                .OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                                int which)
-                            {
-                                openDialogueBox = true;
-
-                                // If user click no
-                                // then dialog box is canceled.
-                                dialog.cancel();
-                            }
-                        });
-
-// Create the Alert dialog
+        // Create the Alert dialog
         AlertDialog alertDialog = builder.create();
 
-// Show the Alert Dialog box
+        // Show the Alert Dialog box
         alertDialog.show();}
 
-        setContentView(R.layout.activity_launch);
-        cameraFeed = findViewById(R.id.cameraFeed);
 
         if (allPermissionsGranted()) {
             startCamera(); //start camera if permission has been granted by user
         } else {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
         }
-
-        //trying s
     }
 
     private void startCamera() {
