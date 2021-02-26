@@ -55,5 +55,5 @@ dependencies {
     // If you want to additionally use the CameraX View class
     implementation "androidx.camera:camera-view:1.0.0-alpha21"
     //TensorFlow task library
-    implementation 'org.tensorflow:tensorflow-lite-task-vision:0.1.0'
+    //implementation 'org.tensorflow:tensorflow-lite-task-vision:0.1.0'
 }

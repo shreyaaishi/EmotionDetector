@@ -11,9 +11,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.emotiondetector.ml.Model;
+
+import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.support.image.ImageProcessor;
 import org.tensorflow.lite.support.image.TensorImage;
-import org.tensorflow.lite.task.vision.classifier.Classifications;
-import org.tensorflow.lite.task.vision.classifier.ImageClassifier;
+import org.tensorflow.lite.support.image.ops.ResizeOp;
+import org.tensorflow.lite.support.label.Category;
+//import org.tensorflow.lite.task.vision.classifier.Classifications;
+//import org.tensorflow.lite.task.vision.classifier.ImageClassifier;
 import org.w3c.dom.Text;
 
 import java.io.File;
@@ -32,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String filePath = extras.getString("path");
         File file = new File(filePath);
-        Bitmap bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
+        bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
         ImageView image = (ImageView) findViewById(R.id.imageDisplay);
         image.setImageBitmap(bmp);
 
@@ -44,18 +50,21 @@ public class MainActivity extends AppCompatActivity {
     }
     public void analyzeImage(View view) {
         try {
-            String modelPath = "assets/model.tflite";
-            TensorImage image = TensorImage.fromBitmap(bmp);
-            ImageClassifier.ImageClassifierOptions options = ImageClassifier.ImageClassifierOptions.builder().setMaxResults(1).build();
-            ImageClassifier imageClassifier = ImageClassifier.createFromFileAndOptions(this, modelPath, options);
+            TensorImage tfImage = new TensorImage(DataType.FLOAT32);
+            tfImage.load(bmp);
+            ImageProcessor imageProcessor = new ImageProcessor.Builder().
+                    add(new ResizeOp(224, 224, ResizeOp.ResizeMethod.BILINEAR)).
+                    build();
+            tfImage = imageProcessor.process(tfImage);
+            Model model = Model.newInstance(view.getContext());
+            Model.Outputs outputs = model.process(tfImage);
+            List<Category> probability = outputs.getProbabilityAsCategoryList();
+            for (int i = 0; i < probability.size(); i++) {
+                Log.e("category", String.valueOf(probability.get(i)));
+            }
 
-            // Run inference
-            List<Classifications> results = imageClassifier.classify(image);
-            TextView textview = findViewById(R.id.textView4);
-            textview.setText((CharSequence) results.get(0));
         } catch(IOException e) {
             Log.e("MainActivity", "IOException");
         }
-
     }
 }
