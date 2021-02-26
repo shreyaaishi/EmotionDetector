@@ -18,9 +18,6 @@ import org.tensorflow.lite.support.image.ImageProcessor;
 import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.image.ops.ResizeOp;
 import org.tensorflow.lite.support.label.Category;
-//import org.tensorflow.lite.task.vision.classifier.Classifications;
-//import org.tensorflow.lite.task.vision.classifier.ImageClassifier;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
