@@ -9,8 +9,7 @@
     <ImageView
         android:id="@+id/imageDisplay"
         android:layout_width="match_parent"
-        android:layout_height="522dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="540dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,9 +18,8 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="378dp"
+        android:layout_height="145dp"
         android:layout_gravity="bottom"
         android:layout_marginStart="16dp"
         android:layout_marginTop="615dp"
@@ -37,6 +35,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.857">
 
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/analyzeButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <Button
             android:id="@+id/backButton"
             android:layout_width="117dp"
@@ -48,17 +57,17 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:icon="@drawable/ic_baseline_keyboard_backspace_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.216"
+            app:layout_constraintEnd_toStartOf="@+id/analyzeButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/analyzeButton"
             android:layout_width="103dp"
             android:layout_height="59dp"
             android:background="#FFFFFF"
             android:backgroundTint="@color/blue"
+            android:onClick="analyzeImage"
             android:text="Analyze"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintBottom_toBottomOf="parent"
