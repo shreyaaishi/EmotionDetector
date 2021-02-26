@@ -67,6 +67,7 @@
             android:layout_height="59dp"
             android:background="#FFFFFF"
             android:backgroundTint="@color/blue"
+            android:onClick="analyzeImage"
             android:text="Analyze"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintBottom_toBottomOf="parent"

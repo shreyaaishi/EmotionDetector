@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -16,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
@@ -24,41 +20,18 @@ import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
-import androidx.camera.core.impl.ImageCaptureConfig;
-import androidx.camera.core.impl.UseCaseConfig;
-import androidx.camera.core.impl.UseCaseConfig.Builder;
 import androidx.camera.lifecycle.ProcessCameraProvider;
-import androidx.camera.view.CameraView;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.util.Rational;
-import android.util.Size;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-
-import androidx.annotation.Nullable;
-import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.impl.ImageAnalysisConfig;
-import androidx.camera.core.ImageCapture;
-import androidx.camera.core.impl.ImageCaptureConfig;
-import androidx.camera.core.ImageProxy;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 
 import androidx.lifecycle.LifecycleOwner;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -70,7 +43,7 @@ import java.util.concurrent.Executors;
 
 
 public class LaunchActivity extends AppCompatActivity {
-    private int REQUEST_CODE_PERMISSIONS = 1001;
+    private final int REQUEST_CODE_PERMISSIONS = 1001;
     private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA"};
     PreviewView cameraFeed;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
@@ -188,6 +161,7 @@ public class LaunchActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(ImageCaptureException exception) {
+                        Log.e("Launch Activity", "ImageCaptureException");
 
                     }
                 });
