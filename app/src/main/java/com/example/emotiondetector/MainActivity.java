@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,13 +39,6 @@ public class MainActivity extends AppCompatActivity {
         ImageView image = (ImageView) findViewById(R.id.imageDisplay);
         image.setImageBitmap(bmp);
 
-        Button button = (Button) findViewById(R.id.analyzeButton);
-        button.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                TextView tv = MainActivity.this.findViewById(R.id.textView4);
-                tv.setVisibility(View.VISIBLE);
-            }
-        });
 
     }
 
